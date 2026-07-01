@@ -1,0 +1,53 @@
+name: Generar Perfil y Certificado iOS
+
+on:
+  workflow_dispatch: # Activa el botón manual en la pestaña Actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Actualizar Servidor Linux e Instalar Compiladores
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake build-essential libssl-dev libffi-dev
+
+    - name: Configurar Entorno de Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Instalar Librerías de Sideloading
+      run: |
+        pip install requests cryptography anisette
+
+    - name: Crear el Script de Python
+      run: |
+        # Usamos el bloque nativo de YAML para escribir el archivo directamente
+        echo "import sys" > script.py
+        echo "import requests" >> script.py
+        echo "from anisette import AnisetteProvider" >> script.py
+        echo "UDID = '00008030-00120956143A802E'" >> script.py
+        echo "APPLE_ID = 'tu_correo@icloud.com'" >> script.py
+        echo "PASSWORD = 'tu_contraseña'" >> script.py
+        echo "print('[+] Generando firmas locales...')" >> script.py
+        echo "try:" >> script.py
+        echo "    provider = AnisetteProvider()" >> script.py
+        echo "    anisette_headers = provider.get_headers()" >> script.py
+        echo "    print('[+] Firmas Anisette obtenidas con éxito en GitHub.')" >> script.py
+        echo "except Exception as e:" >> script.py
+        echo "    print(f'[-] Error: {e}')" >> script.py
+        echo "    sys.exit(1)" >> script.py
+
+    - name: Ejecutar Script de Firmas
+      run: |
+        python script.py
+
+    - name: Subir Archivos Resultantes a GitHub
+      uses: actions/upload-artifact@v4
+      with:
+        name: vieman lits co., ltd
+        path: |
+          *.p12
+          *.mobileprovision
