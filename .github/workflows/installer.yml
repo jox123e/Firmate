@@ -29,8 +29,8 @@ jobs:
         echo "import requests" >> script.py
         echo "from anisette import AnisetteProvider" >> script.py
         echo "UDID = '00008030-00120956143A802E'" >> script.py
-        echo "APPLE_ID = 'tu_correo@icloud.com'" >> script.py
-        echo "PASSWORD = 'tu_contraseña'" >> script.py
+        echo "APPLE_ID = 'josui.ateaga@icloud.com'" >> script.py
+        echo "PASSWORD = 'IdoIwru18472828Ldjqkfnd1'" >> script.py
         echo "print('[+] Generando firmas locales...')" >> script.py
         echo "try:" >> script.py
         echo "    provider = AnisetteProvider()" >> script.py
